@@ -10,7 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dagrejs/dagre": "^1.1.5",
     "graphology": "^0.26.0",
+    "graphology-dag": "^0.4.1",
+    "graphology-layout": "^0.6.1",
+    "graphology-layout-forceatlas2": "^0.10.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "sigma": "^3.0.2"

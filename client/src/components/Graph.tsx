@@ -1,7 +1,8 @@
 // src/components/Graph.tsx
 import React, { useEffect, useRef } from 'react';
 import Sigma from 'sigma';
-import Graph from 'graphology';
+import { fromAdjacencyList } from '../utils/graph-utils';
+import type { AdjacencyList } from '../utils/graph-utils';
 
 const GraphComponent: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -10,18 +11,14 @@ const GraphComponent: React.FC = () => {
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Create a new graphology graph
-    const graph = new Graph();
+    const dag: AdjacencyList = {
+      A: ['B','C'],
+      B: ['D'],
+      D: [],
+      E: ['A','D'],
+    };
 
-    // Add some nodes
-    graph.addNode('n1', { label: 'Node 1', x: 0, y: 0, size: 10, color: '#f00' });
-    graph.addNode('n2', { label: 'Node 2', x: 3, y: 1, size: 10, color: '#0f0' });
-    graph.addNode('n3', { label: 'Node 3', x: 1, y: 3, size: 10, color: '#00f' });
-
-    // Add edges
-    graph.addEdge('n1', 'n2');
-    graph.addEdge('n2', 'n3');
-    graph.addEdge('n3', 'n1');
+    const graph = fromAdjacencyList(dag);
 
     // Initialize sigma with container and graph
     sigmaInstance.current = new Sigma(graph, containerRef.current);
