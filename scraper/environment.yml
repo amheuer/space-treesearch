@@ -1,0 +1,15 @@
+name: nasa_pmc_scraper
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pandas=2.2.2
+  - requests=2.32.3
+  - beautifulsoup4=4.12.3
+  - lxml=5.3.0
+  - tqdm=4.66.5
+  - python-dotenv=1.0.1
+  - pip
+  - pip:
+      - aiohttp==3.10.5  # optional if you later parallelize requests
+
