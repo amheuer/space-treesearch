@@ -1,30 +1,42 @@
 import Graph from 'graphology';
 import forceAtlas2 from 'graphology-layout-forceatlas2';
 import { topologicalGenerations } from 'graphology-dag';
+import type { Paper } from '../models/Paper';
 
 
 export type AdjacencyList = {
-  [key: string]: string[];
+  [key: string]: Paper;
 };
 
 export function fromAdjacencyList(adjList: AdjacencyList): Graph {
   const graph = new Graph({ type: 'directed' });
 
   for (const node in adjList) {
-    if (!graph.hasNode(node)) graph.addNode(node);
+    if (!graph.hasNode(node)) {
+      graph.addNode(node, {
+        size: 10 + adjList[node].references.length * 5,
+        color: '#0077cc', 
+        label: adjList[node].title,
+      });
+    }
   }
-
+  
   for (const source in adjList) {
-    for (const target of adjList[source]) {
-      if (!graph.hasNode(target)) graph.addNode(target);
-      graph.addEdge(source, target);
+    for (const target of adjList[source].references) {
+      if (!graph.hasNode(target)) {
+        graph.addNode(target, { size: 10, color: '#cccccc' }); // default size/color for missing refs
+      }
+      graph.addEdge(source, target, {
+        size: 10, 
+        color: '#444444ff' 
+      });
     }
   }
 
   const generations = topologicalGenerations(graph);
   const totalGenerations = generations.length;
   const spacing = 10;
-  const jitterAmount = 10;
+  const jitterAmount = 50;
 
   generations.forEach((generation, index) => {
     const yPosition = (totalGenerations - 1 - index) * 150;
@@ -34,17 +46,17 @@ export function fromAdjacencyList(adjList: AdjacencyList): Graph {
     generation.forEach((nodeId, nodeIndex) => {
       const baseX = startX + nodeIndex * spacing;
       const randomX = baseX + (Math.random() - 0.5) * jitterAmount;
-      const randomY = yPosition + (Math.random() - 0.5) * jitterAmount * 0.5;
 
       graph.setNodeAttribute(nodeId, 'x', randomX);
-      graph.setNodeAttribute(nodeId, 'y', randomY);
+      graph.setNodeAttribute(nodeId, 'y', yPosition);
     });
   });
 
 forceAtlas2.assign(graph, {
-  iterations: 10,
+  iterations: 30,
   settings: {
     scalingRatio: 2,
+    linLogMode: true,   
   }
 });
 
