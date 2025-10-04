@@ -154,7 +154,6 @@ const GraphComponent: React.FC = () => {
 
     const graph = fromAdjacencyList(dag);
 
-    // Initialize sigma with container and graph
     const renderer = new Sigma(graph, containerRef.current!, {
       labelWeight: 'bold',
       labelColor: { color: '#35a2d5ff' },
@@ -172,19 +171,17 @@ const GraphComponent: React.FC = () => {
     renderer.on("enterNode", ({ node }) => {
       const graph = renderer.getGraph();
 
-      // Helper to collect downstream nodes recursively
       const collectDownstream = (startNode: string, visited = new Set<string>(), directEdges: string[] = []) => {
         if (visited.has(startNode)) return;
         visited.add(startNode);
         const outgoing = graph.outEdges(startNode);
         outgoing.forEach(edge => {
           const target = graph.target(edge);
-          directEdges.push(edge); // collect direct edge from startNode to target
+          directEdges.push(edge); 
           collectDownstream(target, visited, directEdges);
         });
       };
 
-      // Helper to collect upstream nodes recursively
       const collectUpstream = (startNode: string, visited = new Set<string>()) => {
         if (visited.has(startNode)) return;
         visited.add(startNode);
@@ -195,21 +192,18 @@ const GraphComponent: React.FC = () => {
         });
       };
 
-      // Collect all downstream nodes and direct edges
       const downstreamNodes = new Set<string>();
       const directEdges: string[] = [];
       collectDownstream(node, downstreamNodes, directEdges);
 
-      // Collect all upstream nodes
       const upstreamNodes = new Set<string>();
       collectUpstream(node, upstreamNodes);
 
-      // Highlight downstream nodes and edges
       downstreamNodes.forEach(downNode => {
-        graph.setNodeAttribute(downNode, "color", "orange");
-        graph.setNodeAttribute(downNode, "labelColor", { color: "#ffa500" });
+        const gold = "#ffb62dff";
+        graph.setNodeAttribute(downNode, "color", gold);
         graph.outEdges(downNode).forEach(edge => {
-          graph.setEdgeAttribute(edge, "color", "#ffa500");
+          graph.setEdgeAttribute(edge, "color", gold);
         });
       });
 
@@ -217,30 +211,25 @@ const GraphComponent: React.FC = () => {
         graph.setEdgeAttribute(edge, "color", "#ffa500");
       });
 
-      // Highlight upstream nodes and edges
       upstreamNodes.forEach(upNode => {
-        graph.setNodeAttribute(upNode, "color", "purple");
-        graph.setNodeAttribute(upNode, "labelColor", { color: "#a020f0" });
+        const purple = "#e32cffff";
+        graph.setNodeAttribute(upNode, "color", purple);
         graph.inEdges(upNode).forEach(edge => {
-          graph.setEdgeAttribute(edge, "color", "#a020f0");
+          graph.setEdgeAttribute(edge, "color", purple);
         });
       });
 
-      // Highlight the entered node
-      graph.setNodeAttribute(node, "color", "red"); 
-      graph.setNodeAttribute(node, "labelColor", { color: "#ff0000" }); 
+      graph.setNodeAttribute(node, "color", "#84f1ffff"); 
       renderer.refresh();
     });
 
     renderer.on("leaveNode", ({ node }) => {
       const graph = renderer.getGraph();
 
-      // Reset all edges to their original color
       graph.forEachEdge(edge => {
         graph.setEdgeAttribute(edge, "color", "#444444ff");
       });
 
-      // Reset all nodes to their original color and label color
       graph.forEachNode(n => {
         graph.setNodeAttribute(n, "color", "#0077cc");
         graph.setNodeAttribute(n, "labelColor", { color: "#ffffff" });
@@ -249,7 +238,6 @@ const GraphComponent: React.FC = () => {
       renderer.refresh();
     });
 
-    // Cleanup on unmount
     return () => {
       if (sigmaInstance.current) {
         sigmaInstance.current.kill();

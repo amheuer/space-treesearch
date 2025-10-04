@@ -15,7 +15,6 @@ export function fromAdjacencyList(adjList: AdjacencyList): Graph {
     if (!graph.hasNode(node)) {
       graph.addNode(node, {
         size: 10 + adjList[node].references.length * 5,
-        color: '#5b9825ff', 
         label: adjList[node].title,
       });
     }
