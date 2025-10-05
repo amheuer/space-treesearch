@@ -1,12 +1,11 @@
 import React from 'react';
-import AppHeader from './AppHeader';
-import PaperInfoBox from './PaperInfoBox';
+import SearchBar from './SearchBar';
 
-const LeftBar: React.FC = () => (
+const RightBar: React.FC = () => (
   <div style={{
     position: 'absolute',
     top: 20,
-    left: 20,
+    right: 20,
     zIndex: 12,
     width: 370,
     display: 'flex',
@@ -14,9 +13,8 @@ const LeftBar: React.FC = () => (
     gap: '4px',
     alignItems: 'stretch',
   }}>
-    <AppHeader />
-    <PaperInfoBox />
+    <SearchBar />
   </div>
 );
 
-export default LeftBar;
+export default RightBar;

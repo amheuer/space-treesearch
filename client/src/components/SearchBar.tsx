@@ -35,7 +35,7 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-  <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 10, width: 350 }}>
+  <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 10, width: 350, marginRight: 16 }}>
       <input
         type="text"
         placeholder="Search node by title or ID..."
@@ -45,10 +45,10 @@ const SearchBar: React.FC = () => {
           setShowDropdown(true);
         }}
         className="frosted-glass"
-        style={{ width: '100%', padding: '8px', fontSize: '16px' }}
+        style={{ width: '100%', padding: '8px', fontSize: '16px'}}
       />
       {showDropdown && query && (
-        <div className="frosted-glass" style={{ maxHeight: 200, overflowY: 'auto', marginTop: 2 }}>
+        <div className="frosted-glass" style={{ maxHeight: 200, overflowY: 'auto', marginTop: 2, marginRight: 0}}>
           {filtered.length === 0 ? (
             <div style={{ padding: '8px', color: '#888' }}>No results</div>
           ) : (

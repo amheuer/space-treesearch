@@ -1,13 +1,10 @@
 // src/components/Graph.tsx
 import React, { useEffect, useRef } from 'react';
-import SearchBar from './SearchBar';
 import Sigma from 'sigma';
 import { fromAdjacencyList } from '../utils/graph-utils';
 import { getAdjacencyList } from '../utils/graph-data';
-import type { AdjacencyList } from '../utils/graph-utils';
-import type { Paper } from '../models/Paper';
+import { createNodeImageProgram } from "@sigma/node-image";
 
-// Extend window type for setSelectedNode
 declare global {
   interface Window {
     setSelectedNode: (nodeId: string | null) => void;
@@ -31,11 +28,14 @@ const GraphComponent: React.FC = () => {
     const renderer = new Sigma(graph, containerRef.current!, {
       labelWeight: 'bold',
       labelColor: { color: '#35a2d5ff' },
+      nodeProgramClasses: {
+        image: createNodeImageProgram(),
+      },
       nodeReducer: (node, data) => {
         return {
           ...data,
           label: data.label,
-          color: data.color || '#0077cc',
+          color: '#0077cc',
         };
       }
     });
@@ -44,21 +44,20 @@ const GraphComponent: React.FC = () => {
 
     renderer.on("enterNode", ({ node }) => {
       selectedNode.current = node;
+      (window as any).selectedNode = node;
     });
 
     renderer.on("leaveNode", () => {
       selectedNode.current = null;
+      (window as any).selectedNode = null;
     });
 
-    // Per-frame loop to apply effects based on selectedNode
     let animationFrameId: number;
     const graphInstance = renderer.getGraph();
     const applyNodeEffects = () => {
       if (selectedNode.current) {
-        // Highlight logic for selectedNode
         const node = selectedNode.current;
 
-        // Reset all nodes/edges first
         graphInstance.forEachEdge(edge => {
           graphInstance.setEdgeAttribute(edge, "color", "#444444ff");
         });
@@ -67,7 +66,6 @@ const GraphComponent: React.FC = () => {
           graphInstance.setNodeAttribute(n, "labelColor", { color: "#ffffff" });
         });
 
-        // Effects only for selectedNode
         const collectDownstream = (startNode: string, visited = new Set<string>(), directEdges: string[] = []) => {
           if (visited.has(startNode)) return;
           visited.add(startNode);
@@ -132,7 +130,6 @@ const GraphComponent: React.FC = () => {
     };
     animationFrameId = window.requestAnimationFrame(applyNodeEffects);
 
-    // Cleanup animation frame on unmount
     return () => {
       if (sigmaInstance.current) {
         sigmaInstance.current.kill();
