@@ -68,7 +68,7 @@ const PaperInfoBox: React.FC = () => {
       defaultCollapsed={false}
     >
       <div className="scroll-box">
-        <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Author:</strong> {paper.author}</div>
+        <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Author:</strong> {paper.authors}</div>
         <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Journal:</strong> {paper.journal}</div>
         <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Year:</strong> {paper.year}</div>
         <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Summary:</strong> {formatSummary(paper.summary)}</div>
