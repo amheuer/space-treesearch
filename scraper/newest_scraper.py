@@ -186,6 +186,7 @@ def main():
             "year": year if year else None,
             "journal": journal if journal else None,
             "references": pmc_refs
+            "citations": 0
         }
         # polite pause
         time.sleep(SLEEP_BETWEEN)
