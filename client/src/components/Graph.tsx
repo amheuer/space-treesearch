@@ -17,6 +17,7 @@ declare global {
 const GraphComponent: React.FC = () => {
   window.setSelectedNode = (nodeId: string | null) => {
     selectedNode.current = nodeId;
+    (window as any).selectedNode = nodeId;
   };
   const containerRef = useRef<HTMLDivElement | null>(null);
   const sigmaInstance = useRef<Sigma | null>(null);
@@ -142,10 +143,7 @@ const GraphComponent: React.FC = () => {
   }, []);
 
   return (
-    <>
-      <SearchBar />
-      <div ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
-    </>
+    <div ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
   );
 };
 

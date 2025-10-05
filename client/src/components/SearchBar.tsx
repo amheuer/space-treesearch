@@ -35,7 +35,7 @@ const SearchBar: React.FC = () => {
   };
 
   return (
-    <div style={{ position: 'absolute', top: 20, left: 20, zIndex: 10, width: 350 }}>
+  <div style={{ position: 'absolute', top: 20, right: 20, zIndex: 10, width: 350 }}>
       <input
         type="text"
         placeholder="Search node by title or ID..."

@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import GraphComponent from './components/Graph';
-import viteLogo from '/vite.svg'
+import SearchBar from './components/SearchBar';
+import LeftBar from './components/LeftBar';
 import './App.css'
 import './assets/frosted-glass.css'
 
@@ -9,8 +9,12 @@ function App() {
   const [count, setCount] = useState(0)
 
   return (
-        <GraphComponent />
-  )
+    <>
+      <LeftBar />
+      <SearchBar />
+      <GraphComponent />
+    </>
+  );
 }
 
 export default App
