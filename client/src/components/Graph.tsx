@@ -185,7 +185,7 @@ const GraphComponent: React.FC = () => {
 
         applyDownstreamUpstreamHighlighting(node);
         
-        graphInstance.setNodeAttribute(node, "color", "#00ff00");
+        graphInstance.setNodeAttribute(node, "color", "#f2ff00ff");
         graphInstance.setNodeAttribute(node, "labelColor", { color: "#000000" });
         
       } else if (selectedNode.current) {
