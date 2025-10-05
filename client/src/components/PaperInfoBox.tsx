@@ -3,10 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { getAdjacencyList } from '../utils/graph-data';
 import CollapsiblePanel from './CollapsiblePanel';
-import '/src/assets/scroll-box.css';
+import '../assets/scroll-box.css';
 
 const PaperInfoBox: React.FC = () => {
-  const [selectedNode, setSelectedNode] = useState<string | null>(null);
+  const [, setSelectedNode] = useState<string | null>(null);
   const [paper, setPaper] = useState<any>(null);
   const [persistedNode, setPersistedNode] = useState<string | null>(null);
 
@@ -17,13 +17,11 @@ const PaperInfoBox: React.FC = () => {
       const hoveredNode = (window as any).selectedNode || null;
       const clickedNode = window.getClickedNode ? window.getClickedNode() : null;
 
-      // Prioritize clicked node over hovered node
       const activeNode = clickedNode || hoveredNode;
 
-      // Only update if there is a new active node
       if (activeNode && activeNode !== lastNode) {
         setSelectedNode(activeNode);
-        setPersistedNode(activeNode); // Persist for display even if hover ends
+        setPersistedNode(activeNode);
 
         const adj = getAdjacencyList();
         setPaper(adj[activeNode] || null);
@@ -37,13 +35,13 @@ const PaperInfoBox: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-const formatSummary = (summary: string) => {
-  if (!summary) return '';
-  let formatted = summary.replace(/ \*\*/g, '');
-  formatted = formatted.replace(/\*\* /g, '\n');
-  formatted = formatted.replace(/(^|\n)\*/g, '$1•');
-  return formatted;
-};
+  const formatSummary = (summary: string) => {
+    if (!summary) return '';
+    let formatted = summary.replace(/ \*\*/g, '');
+    formatted = formatted.replace(/\*\* /g, '\n');
+    formatted = formatted.replace(/(^|\n)\*/g, '$1•');
+    return formatted;
+  };
 
   if (!paper || !persistedNode) return null;
 
@@ -75,7 +73,7 @@ const formatSummary = (summary: string) => {
         <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Year:</strong> {paper.year}</div>
         <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Summary:</strong> {formatSummary(paper.summary)}</div>
         <div style={{ fontSize: '0.95rem' }}><strong>References:</strong> {paper.references && paper.references.length > 0 ? paper.references.join(', ') : 'None'}</div>
-        <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Cited By:</strong> {paper.citations}</div>             
+        <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Cited By:</strong> {paper.citations}</div>
       </div>
     </CollapsiblePanel>
   );
