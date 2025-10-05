@@ -1,5 +1,6 @@
 import React from 'react';
 import SearchBar from './SearchBar';
+import Tools from './Tools';
 
 const RightBar: React.FC = () => (
   <div style={{
@@ -7,13 +8,19 @@ const RightBar: React.FC = () => (
     top: 20,
     right: 20,
     zIndex: 12,
-    width: 370,
+    width: 350,
+    marginRight: 40,
     display: 'flex',
     flexDirection: 'column',
-    gap: '4px',
+    gap: '8px',
     alignItems: 'stretch',
   }}>
-    <SearchBar />
+    <div style={{ width: '100%' }}>
+      <SearchBar />
+    </div>
+    <div style={{ width: '100%', marginTop: '8px' }}>
+      <Tools />
+    </div>
   </div>
 );
 

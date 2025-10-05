@@ -19,6 +19,7 @@ const GraphComponent: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const sigmaInstance = useRef<Sigma | null>(null);
   const selectedNode = useRef<string | null>(null);
+  const clickSelectedNode = useRef<string | null>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -32,7 +33,7 @@ const GraphComponent: React.FC = () => {
         image: createNodeImageProgram(),
       },
       defaultNodeColor: '#0077cc',
-      nodeReducer: (node, data) => {
+      nodeReducer: (_node, data) => {
         return {
           ...data,
           label: data.label,
@@ -43,19 +44,104 @@ const GraphComponent: React.FC = () => {
     sigmaInstance.current = renderer;
 
     renderer.on("enterNode", ({ node }) => {
-      selectedNode.current = node;
-      (window as any).selectedNode = node;
+      if (!clickSelectedNode.current) {
+        selectedNode.current = node;
+        (window as any).selectedNode = node;
+      }
     });
 
     renderer.on("leaveNode", () => {
+      if (!clickSelectedNode.current) {
+        selectedNode.current = null;
+        (window as any).selectedNode = null;
+      }
+    });
+
+    renderer.on("clickNode", ({ node }) => {
+      clickSelectedNode.current = node;
       selectedNode.current = null;
       (window as any).selectedNode = null;
     });
 
+    renderer.on("clickStage", () => {
+      clickSelectedNode.current = null;
+    });
+
     let animationFrameId: number;
     const graphInstance = renderer.getGraph();
+    
+    // Function to apply downstream and upstream highlighting
+    const applyDownstreamUpstreamHighlighting = (node: string) => {
+      const collectDownstream = (startNode: string, visited = new Set<string>(), directEdges: string[] = []) => {
+        if (visited.has(startNode)) return;
+        visited.add(startNode);
+        const outgoing = graphInstance.outEdges(startNode);
+        outgoing.forEach(edge => {
+          const target = graphInstance.target(edge);
+          directEdges.push(edge);
+          collectDownstream(target, visited, directEdges);
+        });
+      };
+
+      const collectUpstream = (startNode: string, visited = new Set<string>()) => {
+        if (visited.has(startNode)) return;
+        visited.add(startNode);
+        const incoming = graphInstance.inEdges(startNode);
+        incoming.forEach(edge => {
+          const source = graphInstance.source(edge);
+          collectUpstream(source, visited);
+        });
+      };
+
+      const downstreamNodes = new Set<string>();
+      const directEdges: string[] = [];
+      collectDownstream(node, downstreamNodes, directEdges);
+
+      const upstreamNodes = new Set<string>();
+      collectUpstream(node, upstreamNodes);
+
+      downstreamNodes.forEach(downNode => {
+        const gold = "#ffb62dff";
+        graphInstance.setNodeAttribute(downNode, "color", gold);
+        graphInstance.outEdges(downNode).forEach(edge => {
+          graphInstance.setEdgeAttribute(edge, "color", gold);
+        });
+      });
+
+      graphInstance.outEdges(node).forEach(edge => {
+        graphInstance.setEdgeAttribute(edge, "color", "#ffa500");
+      });
+
+      upstreamNodes.forEach(upNode => {
+        const purple = "#e32cffff";
+        graphInstance.setNodeAttribute(upNode, "color", purple);
+        graphInstance.inEdges(upNode).forEach(edge => {
+          graphInstance.setEdgeAttribute(edge, "color", purple);
+        });
+      });
+    };
+    
     const applyNodeEffects = () => {
-      if (selectedNode.current) {
+      if (clickSelectedNode.current) {
+        // Click selected state - turn node green and apply downstream/upstream highlighting
+        const node = clickSelectedNode.current;
+        
+        graphInstance.forEachEdge(edge => {
+          graphInstance.setEdgeAttribute(edge, "color", "#444444ff");
+        });
+        graphInstance.forEachNode(n => {
+          graphInstance.setNodeAttribute(n, "color", "#0077cc");
+          graphInstance.setNodeAttribute(n, "labelColor", { color: "#ffffff" });
+        });
+
+        // Apply downstream and upstream highlighting
+        applyDownstreamUpstreamHighlighting(node);
+        
+        // Turn the clicked node green
+        graphInstance.setNodeAttribute(node, "color", "#00ff00");
+        graphInstance.setNodeAttribute(node, "labelColor", { color: "#000000" });
+        
+      } else if (selectedNode.current) {
         const node = selectedNode.current;
 
         graphInstance.forEachEdge(edge => {
@@ -66,53 +152,8 @@ const GraphComponent: React.FC = () => {
           graphInstance.setNodeAttribute(n, "labelColor", { color: "#ffffff" });
         });
 
-        const collectDownstream = (startNode: string, visited = new Set<string>(), directEdges: string[] = []) => {
-          if (visited.has(startNode)) return;
-          visited.add(startNode);
-          const outgoing = graphInstance.outEdges(startNode);
-          outgoing.forEach(edge => {
-            const target = graphInstance.target(edge);
-            directEdges.push(edge);
-            collectDownstream(target, visited, directEdges);
-          });
-        };
-
-        const collectUpstream = (startNode: string, visited = new Set<string>()) => {
-          if (visited.has(startNode)) return;
-          visited.add(startNode);
-          const incoming = graphInstance.inEdges(startNode);
-          incoming.forEach(edge => {
-            const source = graphInstance.source(edge);
-            collectUpstream(source, visited);
-          });
-        };
-
-        const downstreamNodes = new Set<string>();
-        const directEdges: string[] = [];
-        collectDownstream(node, downstreamNodes, directEdges);
-
-        const upstreamNodes = new Set<string>();
-        collectUpstream(node, upstreamNodes);
-
-        downstreamNodes.forEach(downNode => {
-          const gold = "#ffb62dff";
-          graphInstance.setNodeAttribute(downNode, "color", gold);
-          graphInstance.outEdges(downNode).forEach(edge => {
-            graphInstance.setEdgeAttribute(edge, "color", gold);
-          });
-        });
-
-        graphInstance.outEdges(node).forEach(edge => {
-          graphInstance.setEdgeAttribute(edge, "color", "#ffa500");
-        });
-
-        upstreamNodes.forEach(upNode => {
-          const purple = "#e32cffff";
-          graphInstance.setNodeAttribute(upNode, "color", purple);
-          graphInstance.inEdges(upNode).forEach(edge => {
-            graphInstance.setEdgeAttribute(edge, "color", purple);
-          });
-        });
+        // Apply downstream and upstream highlighting
+        applyDownstreamUpstreamHighlighting(node);
 
         graphInstance.setNodeAttribute(node, "color", "#84f1ffff");
       } else {
