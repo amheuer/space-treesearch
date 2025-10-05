@@ -15,7 +15,6 @@ export function fromAdjacencyList(adjList: AdjacencyList): Graph {
     if (!graph.hasNode(node)) {
       graph.addNode(node, {
         size: 10 + adjList[node].references.length * 5,
-        color: '#0077cc', 
         label: adjList[node].title,
       });
     }
@@ -36,7 +35,7 @@ export function fromAdjacencyList(adjList: AdjacencyList): Graph {
   const generations = topologicalGenerations(graph);
   const totalGenerations = generations.length;
   const spacing = 10;
-  const jitterAmount = 50;
+  const jitterAmount = 1500;
 
   generations.forEach((generation, index) => {
     const yPosition = (totalGenerations - 1 - index) * 150;
@@ -53,7 +52,7 @@ export function fromAdjacencyList(adjList: AdjacencyList): Graph {
   });
 
 forceAtlas2.assign(graph, {
-  iterations: 30,
+  iterations: 10,
   settings: {
     scalingRatio: 2,
     linLogMode: true,   

@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: #1a1a1b;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,6 +28,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  /* Subtle dark gradient background */
+  background: linear-gradient(0deg, #363e42 0%, #1a1a1b 60%, #101011 100%);
 }
 
 h1 {
@@ -58,6 +60,10 @@ button:focus-visible {
   :root {
     color: #213547;
     background-color: #ffffff;
+  }
+  body {
+    /* Subtle light gradient background */
+    background: linear-gradient(135deg, #e0eafc 0%, #ffffff 60%, #f7f7fa 100%);
   }
   a:hover {
     color: #747bff;
