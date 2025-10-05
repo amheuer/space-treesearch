@@ -30,7 +30,7 @@ const SearchBar: React.FC = () => {
     setQuery('');
     setShowDropdown(false);
     if (typeof window.setSelectedNode === 'function') {
-      window.setSelectedNode(nodeId);
+      window.setClickedNode(nodeId);
     }
   };
 
