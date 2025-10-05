@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/Graph.tsx
 import React, { useEffect, useRef } from 'react';
 import Sigma from 'sigma';
@@ -9,6 +10,7 @@ declare global {
   interface Window {
     setSelectedNode: (nodeId: string | null) => void;
     getClickedNode: () => string | null;
+    setClickedNode: (nodeId: string | null) => void;
   }
 }
 
@@ -17,10 +19,16 @@ const GraphComponent: React.FC = () => {
     selectedNode.current = nodeId;
     (window as any).selectedNode = nodeId;
   };
+  window.setClickedNode = (nodeId: string | null) => {
+    clickSelectedNode.current = nodeId;
+    selectedNode.current = null;
+    (window as any).selectedNode = null;
+  };
   
   window.getClickedNode = () => {
     return clickSelectedNode.current;
   };
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const sigmaInstance = useRef<Sigma | null>(null);
   const selectedNode = useRef<string | null>(null);

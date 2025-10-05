@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { getAdjacencyList } from '../utils/graph-data';
 import CollapsiblePanel from './CollapsiblePanel';
@@ -62,6 +64,7 @@ const formatSummary = (summary: string) => {
       <div className="scroll-box">
         <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Author:</strong> {paper.author}</div>
         <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Journal:</strong> {paper.journal}</div>
+        <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Year:</strong> {paper.year}</div>
         <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Summary:</strong> {formatSummary(paper.summary)}</div>
         <div style={{ fontSize: '0.95rem' }}><strong>References:</strong> {paper.references && paper.references.length > 0 ? paper.references.join(', ') : 'None'}</div>
         <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Cited By:</strong> {paper.citations}</div>             

@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Graph from 'graphology';
 import forceAtlas2 from 'graphology-layout-forceatlas2';
 import { topologicalGenerations } from 'graphology-dag';
 import type { Paper } from '../models/Paper';
 import type { Experiment } from '../models/Experiment';
+import { GoogleGenerativeAI, TaskType } from '@google/generative-ai';
+
 
 
 export type AdjacencyList = {
@@ -81,34 +84,58 @@ export function fromExperimentsSample(experimentMap: { [key: string]: Experiment
 }
 
 
-// function cosineSimilarity(vecA: number[], vecB: number[]): number {
-//   const dotProduct = vecA.reduce((sum, val, i) => sum + val * vecB[i], 0);
-//   const normA = Math.sqrt(vecA.reduce((sum, val) => sum + val * val, 0));
-//   const normB = Math.sqrt(vecB.reduce((sum, val) => sum + val * val, 0));
+function cosineSimilarity(vecA: number[], vecB: number[]): number {
+  const dotProduct = vecA.reduce((sum, val, i) => sum + val * vecB[i], 0);
+  const normA = Math.sqrt(vecA.reduce((sum, val) => sum + val * val, 0));
+  const normB = Math.sqrt(vecB.reduce((sum, val) => sum + val * val, 0));
 
-//   if (normA === 0 || normB === 0) return -1; // Avoid division by zero
+  if (normA === 0 || normB === 0) return -1; // Avoid division by zero
 
-//   return dotProduct / (normA * normB);
-// }
+  return dotProduct / (normA * normB);
+}
 
+export async function embedInput(input: string): Promise<number[]>{
+  const ai = new GoogleGenerativeAI(import.meta.env.VITE_GOOGLE_API_KEY!);
+  const prompt = `Please provide a summary in around 500 characters and have 3 bullet points of the biggest takeways for a paper that could be written based on the following description ${input}}`;
+  const model = ai.getGenerativeModel({ model: 'gemini-2.5-flash-lite' });
+  const textResponse = await model.generateContent(prompt);
+  
+  const summary = textResponse.response.text();
 
-// function findClosestEmbedding(
-//   papers: AdjacencyList,
-//   inputEmbedding: number[]
-// ): string | null {
-//   let closestId: string | null = null;
-//   let highestSimilarity = -Infinity;
+  const embed_model = ai.getGenerativeModel({ model: 'gemini-embedding-001' });
+  const request = {
+    content: {
+        parts: [{ text: summary }],
+        role: 'user'
+    },
+    taskType: TaskType.SEMANTIC_SIMILARITY,
+    };
+    const response = await embed_model.embedContent(request);
+    const embDoc = response.embedding;
+    if (!embDoc || !embDoc.values) throw new Error('No embedding returned from model');
+      return Array.isArray(embDoc.values) ? embDoc.values : Array.from(embDoc.values);
 
-//   for (const [id, doc] of Object.entries(papers)) {
-//     const similarity = cosineSimilarity(inputEmbedding, doc.embedding);
-//     if (similarity > highestSimilarity) {
-//       highestSimilarity = similarity;
-//       closestId = id;
-//     }
-//   }
+}
 
-//   return closestId;
-// }
+export function findClosestEmbedding(
+  papers: AdjacencyList,
+  inputEmbedding: number[]
+): string | null {
+  let closestId: string | null = null;
+  let highestSimilarity = -Infinity;
+
+  for (const [id, doc] of Object.entries(papers)) {
+    if (doc.vector) {
+      const similarity = cosineSimilarity(inputEmbedding, doc.vector);
+      if (similarity > highestSimilarity) {
+        highestSimilarity = similarity;
+        closestId = id;
+      }
+    }
+  }
+
+  return closestId;
+}
 
 function wouldCreateCycle(graph: Graph, source: string, target: string): boolean {
   if (!graph.hasNode(source) || !graph.hasNode(target)) return false;
