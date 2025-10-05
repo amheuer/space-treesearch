@@ -1,20 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from 'react';
 import { idiate, compare } from '../utils/tool-utils';
 import { getAdjacencyList } from '../utils/graph-data';
 import CollapsiblePanel from './CollapsiblePanel';
 import '/src/assets/scroll-box.css';
+import '/src/assets/frosted-glass.css';
+import { getSavedPapers, setSavedPapers } from '../utils/graph-utils';
 
-type ToolState = 'none' | 'suggest' | 'compare' | 'experiment';
+type ToolState = 'none' | 'suggest' | 'compare' | 'experiment' | 'saved';
 
 const Tools: React.FC = () => {
   const [selectedState, setSelectedState] = useState<ToolState>('none');
   const [suggestions, setSuggestions] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [lastProcessedNode, setLastProcessedNode] = useState<string | null>(null);
-  
+  const [savedPapers, setSavedPapersState] = useState<string[]>([]);
+
   // Compare tool state
   const [firstCompareNode, setFirstCompareNode] = useState<string | null>(null);
   const [compareResults, setCompareResults] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleSavedPapersUpdate = () => {
+      setSavedPapersState(getSavedPapers());
+    };
+
+    if (selectedState === 'saved') {
+      setSavedPapersState(getSavedPapers());
+      window.addEventListener('saved-papers-updated', handleSavedPapersUpdate);
+    } else {
+      window.removeEventListener('saved-papers-updated', handleSavedPapersUpdate);
+    }
+
+    return () => {
+      window.removeEventListener('saved-papers-updated', handleSavedPapersUpdate);
+    };
+  }, [selectedState]);
 
   // Monitor for node clicks and handle suggest/compare modes
   useEffect(() => {
@@ -210,6 +231,28 @@ const Tools: React.FC = () => {
             </p>
           </div>
         );
+      case 'saved':
+        return (
+          <div>
+            <h4 style={{ margin: '0 0 8px 0', color: '#fff' }}>Saved Papers</h4>
+            {savedPapers.length > 0 ? (
+              <div className="scroll-box">
+                <ul>
+                  {savedPapers.map((paperId) => (
+                    <li key={paperId} onClick={() => window.setClickedNode(paperId)} style={{cursor: 'pointer'}}>
+                      {getAdjacencyList()[paperId]?.title || paperId}
+                    </li>
+                  ))}
+                </ul>
+                <button className="frosted-glass" onClick={() => { setSavedPapers([]); setSavedPapersState([]); }}>Clear</button>
+              </div>
+            ) : (
+              <p style={{ margin: '0', color: '#ccc', fontSize: '14px' }}>
+                Right-click on a node and select "Save Paper" to add it to this list.
+              </p>
+            )}
+          </div>
+        );
       default:
         return null;
     }
@@ -235,7 +278,7 @@ const Tools: React.FC = () => {
         borderBottom: '1px solid rgba(255, 255, 255, 0.0)',
         marginBottom: '8px',
       }}>
-        {(['suggest', 'compare', 'experiment'] as ToolState[]).map((state) => (
+        {(['suggest', 'compare', 'experiment', 'saved'] as ToolState[]).map((state) => (
           <button
             key={state}
             onClick={() => setSelectedState(selectedState === state ? 'none' : state)}

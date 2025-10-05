@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // src/components/Graph.tsx
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Sigma from 'sigma';
-import { fromAdjacencyList } from '../utils/graph-utils';
+import { fromAdjacencyList, getSavedPapers, setSavedPapers } from '../utils/graph-utils';
 import { getAdjacencyList } from '../utils/graph-data';
 import { createNodeImageProgram } from "@sigma/node-image";
+import '/src/assets/frosted-glass.css';
 
 declare global {
   interface Window {
@@ -33,6 +34,23 @@ const GraphComponent: React.FC = () => {
   const sigmaInstance = useRef<Sigma | null>(null);
   const selectedNode = useRef<string | null>(null);
   const clickSelectedNode = useRef<string | null>(null);
+  const hoveredNode = useRef<string | null>(null);
+  const [contextMenu, setContextMenu] = useState<{
+    visible: boolean;
+    x: number;
+    y: number;
+    nodeId: string | null;
+  }>({ visible: false, x: 0, y: 0, nodeId: null });
+
+  const handleSavePaper = () => {
+    if (contextMenu.nodeId) {
+      const currentSavedPapers = getSavedPapers();
+      if (!currentSavedPapers.includes(contextMenu.nodeId)) {
+        setSavedPapers([...currentSavedPapers, contextMenu.nodeId]);
+      }
+      setContextMenu({ visible: false, x: 0, y: 0, nodeId: null });
+    }
+  };
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -59,6 +77,7 @@ const GraphComponent: React.FC = () => {
     sigmaInstance.current = renderer;
 
     renderer.on("enterNode", ({ node }) => {
+      hoveredNode.current = node;
       if (!clickSelectedNode.current) {
         selectedNode.current = node;
         (window as any).selectedNode = node;
@@ -66,6 +85,7 @@ const GraphComponent: React.FC = () => {
     });
 
     renderer.on("leaveNode", () => {
+      hoveredNode.current = null;
       if (!clickSelectedNode.current) {
         selectedNode.current = null;
         (window as any).selectedNode = null;
@@ -80,7 +100,22 @@ const GraphComponent: React.FC = () => {
 
     renderer.on("clickStage", () => {
       clickSelectedNode.current = null;
+      setContextMenu({ visible: false, x: 0, y: 0, nodeId: null });
     });
+
+    const container = containerRef.current;
+    const handleContextMenu = (event: MouseEvent) => {
+        if (hoveredNode.current) {
+            event.preventDefault();
+            setContextMenu({
+                visible: true,
+                x: event.clientX,
+                y: event.clientY,
+                nodeId: hoveredNode.current,
+            });
+        }
+    };
+    container.addEventListener('contextmenu', handleContextMenu);
 
     let animationFrameId: number;
     const graphInstance = renderer.getGraph();
@@ -188,12 +223,29 @@ const GraphComponent: React.FC = () => {
         sigmaInstance.current.kill();
         sigmaInstance.current = null;
       }
+      container.removeEventListener('contextmenu', handleContextMenu);
       window.cancelAnimationFrame(animationFrameId);
     };
   }, []);
 
   return (
-    <div ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
+    <div>
+      <div ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
+      {contextMenu.visible && (
+        <div
+          className="frosted-glass"
+          style={{
+            position: 'absolute',
+            top: contextMenu.y,
+            left: contextMenu.x,
+            padding: '5px',
+            zIndex: 1000,
+          }}
+        >
+          <button onClick={handleSavePaper} className="frosted-glass">Save Paper</button>
+        </div>
+      )}
+    </div>
   );
 };
 

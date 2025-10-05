@@ -6,6 +6,17 @@ import type { Paper } from '../models/Paper';
 import type { Experiment } from '../models/Experiment';
 import { GoogleGenerativeAI, TaskType } from '@google/generative-ai';
 
+let savedPapers: string[] = [];
+
+export function setSavedPapers(papers: string[]) {
+  savedPapers = papers;
+  window.dispatchEvent(new CustomEvent('saved-papers-updated'));
+}
+
+export function getSavedPapers() {
+  return savedPapers;
+}
+
 
 
 export type AdjacencyList = {
