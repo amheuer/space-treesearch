@@ -33,6 +33,8 @@ const GraphComponent: React.FC = () => {
 
     const renderer = new Sigma(graph, containerRef.current!, {
       labelWeight: 'bold',
+      labelSize: 12,
+      labelRenderedSizeThreshold: 15,
       labelColor: { color: '#35a2d5ff' },
       nodeProgramClasses: {
         image: createNodeImageProgram(),
@@ -131,10 +133,10 @@ const GraphComponent: React.FC = () => {
         const node = clickSelectedNode.current;
         
         graphInstance.forEachEdge(edge => {
-          graphInstance.setEdgeAttribute(edge, "color", "#444444ff");
+          graphInstance.setEdgeAttribute(edge, "color", "#212121ff");
         });
         graphInstance.forEachNode(n => {
-          graphInstance.setNodeAttribute(n, "color", "#0077cc");
+          graphInstance.setNodeAttribute(n, "color", "#0077cc32");
           graphInstance.setNodeAttribute(n, "labelColor", { color: "#ffffff" });
         });
 
@@ -147,10 +149,10 @@ const GraphComponent: React.FC = () => {
         const node = selectedNode.current;
 
         graphInstance.forEachEdge(edge => {
-          graphInstance.setEdgeAttribute(edge, "color", "#444444ff");
+          graphInstance.setEdgeAttribute(edge, "color", "#0000002a");
         });
         graphInstance.forEachNode(n => {
-          graphInstance.setNodeAttribute(n, "color", "#0077cc");
+          graphInstance.setNodeAttribute(n, "color", "#0077cc32");
           graphInstance.setNodeAttribute(n, "labelColor", { color: "#ffffff" });
         });
 
@@ -161,10 +163,10 @@ const GraphComponent: React.FC = () => {
       } else {
         // Reset all nodes/edges if no selectedNode
         graphInstance.forEachEdge(edge => {
-          graphInstance.setEdgeAttribute(edge, "color", "#444444ff");
+          graphInstance.setEdgeAttribute(edge, "color", "#121212ff");
         });
         graphInstance.forEachNode(n => {
-          graphInstance.setNodeAttribute(n, "color", "#0077cc");
+          graphInstance.setNodeAttribute(n, "color", "#0077cc32");
           graphInstance.setNodeAttribute(n, "labelColor", { color: "#ffffff" });
         });
       }

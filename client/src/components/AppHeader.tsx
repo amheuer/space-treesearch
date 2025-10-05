@@ -20,7 +20,6 @@ const AppHeader: React.FC = () => (
     <div style={{ fontSize: '1rem', lineHeight: 1.5 }}>
       <p>A graph knowledge engine to explore the connections between space biology papers.</p>
     </div>
-    {/* PaperInfoBox removed, now rendered separately in App.tsx */}
   </CollapsiblePanel>
 );
 

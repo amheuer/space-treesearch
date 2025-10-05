@@ -17,6 +17,8 @@
     "graphology-dag": "^0.4.1",
     "graphology-layout": "^0.6.1",
     "graphology-layout-forceatlas2": "^0.10.1",
+    "graphology-metrics": "^2.4.0",
+    "graphology-operators": "^1.6.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "sigma": "^3.0.2"

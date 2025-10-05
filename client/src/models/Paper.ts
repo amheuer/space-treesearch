@@ -1,9 +1,10 @@
 export type Paper = {
-  author: string;
+  authors: string[];
+  year: string;
   title: string;
   summary: string;
   journal: string;
   references: string[];
   citations: number;
-  embedding: number[];
+  vector: number[];
 };

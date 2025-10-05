@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getAdjacencyList } from '../utils/graph-data';
 import CollapsiblePanel from './CollapsiblePanel';
+import '/src/assets/scroll-box.css';
 
 const PaperInfoBox: React.FC = () => {
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
@@ -26,9 +27,17 @@ const PaperInfoBox: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+const formatSummary = (summary: string) => {
+  if (!summary) return '';
+  let formatted = summary.replace(/ \*\*/g, '');
+  formatted = formatted.replace(/\*\* /g, '\n');
+  formatted = formatted.replace(/(^|\n)\*/g, '$1•');
+  return formatted;
+};
+
   if (!paper || !persistedNode) return null;
 
-  const paperUrl = `https://www.ncbi.nlm.nih.gov/pmc/articals/${persistedNode}`;
+  const paperUrl = `https://www.ncbi.nlm.nih.gov/pmc/articles/${persistedNode}`;
   return (
     <CollapsiblePanel
       header={
@@ -50,11 +59,13 @@ const PaperInfoBox: React.FC = () => {
       }}
       defaultCollapsed={false}
     >
-      <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Author:</strong> {paper.author}</div>
-      <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Journal:</strong> {paper.journal}</div>
-      <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Summary:</strong> {paper.summary}</div>
-      <div style={{ fontSize: '0.95rem' }}><strong>References:</strong> {paper.references && paper.references.length > 0 ? paper.references.join(', ') : 'None'}</div>
-      <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Cited By:</strong> {paper.citations}</div>
+      <div className="scroll-box">
+        <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Author:</strong> {paper.author}</div>
+        <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Journal:</strong> {paper.journal}</div>
+        <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Summary:</strong> {formatSummary(paper.summary)}</div>
+        <div style={{ fontSize: '0.95rem' }}><strong>References:</strong> {paper.references && paper.references.length > 0 ? paper.references.join(', ') : 'None'}</div>
+        <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Cited By:</strong> {paper.citations}</div>             
+      </div>
     </CollapsiblePanel>
   );
 };
