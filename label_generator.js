@@ -13,8 +13,8 @@ if (!API_KEY) {
 // --- Configuration ---
 const INPUT_FILE = "client/src/data/merged_data.json";
 const OUTPUT_FILE = "client/src/data/merged_data_with_labels.json";
-const MODEL_NAME = "gemini-2.0-flash-lite";
-const CONCURRENT_REQUESTS = 50;
+const MODEL_NAME = "gemini-2.5-flash-lite";
+const CONCURRENT_REQUESTS = 10;
 
 // --- Helper: Delay function ---
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));

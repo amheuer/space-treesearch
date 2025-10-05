@@ -7,7 +7,7 @@ import '/src/assets/scroll-box.css';
 import '/src/assets/frosted-glass.css';
 import { getSavedPapers, setSavedPapers } from '../utils/graph-utils';
 
-type ToolState = 'none' | 'suggest' | 'compare' | 'experiment' | 'saved';
+type ToolState = 'none' | 'suggest' | 'compare' | 'saved';
 
 const Tools: React.FC = () => {
   const [selectedState, setSelectedState] = useState<ToolState>('none');
@@ -222,15 +222,6 @@ const Tools: React.FC = () => {
             )}
           </div>
         );
-      case 'experiment':
-        return (
-          <div>
-            <h4 style={{ margin: '0 0 8px 0', color: '#fff' }}>Experiment Tools</h4>
-            <p style={{ margin: '0', color: '#ccc', fontSize: '14px' }}>
-              This is a template for experiment functionality. Export options will be implemented here.
-            </p>
-          </div>
-        );
       case 'saved':
         return (
           <div>
@@ -278,7 +269,7 @@ const Tools: React.FC = () => {
         borderBottom: '1px solid rgba(255, 255, 255, 0.0)',
         marginBottom: '8px',
       }}>
-        {(['suggest', 'compare', 'experiment', 'saved'] as ToolState[]).map((state) => (
+        {(['suggest', 'compare', 'saved'] as ToolState[]).map((state) => (
           <button
             key={state}
             onClick={() => setSelectedState(selectedState === state ? 'none' : state)}
