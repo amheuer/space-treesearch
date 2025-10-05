@@ -34,16 +34,6 @@ const SearchBar: React.FC = () => {
     }
   };
 
-  const backgroundColor = 'rgba(69,69,69,0.5)';
-  const frostedStyle = {
-    background: backgroundColor,
-    color: '#fff',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    boxShadow: '0 4px 24px rgba(0,0,0,0.12)',
-    backdropFilter: 'blur(8px)',
-    WebkitBackdropFilter: 'blur(8px)',
-  };
   return (
     <div style={{ position: 'absolute', top: 20, left: 20, zIndex: 10, width: 350 }}>
       <input
@@ -54,10 +44,11 @@ const SearchBar: React.FC = () => {
           setQuery(e.target.value);
           setShowDropdown(true);
         }}
-        style={{ width: '100%', padding: '8px', fontSize: '16px', ...frostedStyle }}
+        className="frosted-glass"
+        style={{ width: '100%', padding: '8px', fontSize: '16px' }}
       />
       {showDropdown && query && (
-        <div style={{ maxHeight: 200, overflowY: 'auto', marginTop: 2, ...frostedStyle }}>
+        <div className="frosted-glass" style={{ maxHeight: 200, overflowY: 'auto', marginTop: 2 }}>
           {filtered.length === 0 ? (
             <div style={{ padding: '8px', color: '#888' }}>No results</div>
           ) : (
