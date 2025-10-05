@@ -2,6 +2,7 @@ import Graph from 'graphology';
 import forceAtlas2 from 'graphology-layout-forceatlas2';
 import { topologicalGenerations } from 'graphology-dag';
 import type { Paper } from '../models/Paper';
+import type { Experiment } from '../models/Experiment';
 
 
 export type AdjacencyList = {
@@ -61,6 +62,18 @@ forceAtlas2.assign(graph, {
   }
 });
 
+
+  return graph;
+}
+
+export function fromExperimentsSample(experimentMap: { [key: string]: Experiment }): Graph {
+  const graph = new Graph({ type: 'directed' });
+
+  for (const experiment in experimentMap) {
+    graph.addNode(experiment, {
+      label: experimentMap[experiment].name,
+    });
+  }
 
   return graph;
 }

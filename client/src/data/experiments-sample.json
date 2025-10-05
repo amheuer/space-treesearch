@@ -1,0 +1,72 @@
+{
+    "123456": {
+      "name": "Shoot plants with a gun in space",
+      "research_area": "plant science",
+      "objective": "to shoot plants with a gun in space",
+      "approach": "we will use a gun to shoot plants in space",
+      "results": "the plants will be shot with a gun in space"
+    },
+    "789012": {
+      "name": "Microgravity Effects on Protein Crystallization",
+      "research_area": "structural biology",
+      "objective": "Investigate how microgravity conditions affect protein crystal formation and quality",
+      "approach": "Compare protein crystallization experiments conducted on ISS versus ground-based controls using identical protein samples and crystallization conditions",
+      "results": "Microgravity environment produced larger, more uniform crystals with higher resolution diffraction patterns"
+    },
+    "345678": {
+      "name": "Space-Based Solar Panel Efficiency Study",
+      "research_area": "renewable energy",
+      "objective": "Evaluate solar panel performance degradation in space radiation environment",
+      "approach": "Deploy identical solar panels on ISS exterior for 2-year exposure study with continuous power output monitoring",
+      "results": "15% efficiency loss observed after 18 months, primarily due to radiation damage to silicon cells"
+    },
+    "901234": {
+      "name": "Zero-Gravity Fluid Dynamics Experiment",
+      "research_area": "fluid mechanics",
+      "objective": "Study capillary flow behavior in microgravity for space-based life support systems",
+      "approach": "Use transparent microfluidic channels aboard ISS to observe fluid behavior without gravity interference",
+      "results": "Surface tension dominates fluid behavior, enabling passive fluid transport systems for space habitats"
+    },
+    "567890": {
+      "name": "Space-Grown Lettuce Nutritional Analysis",
+      "research_area": "space agriculture",
+      "objective": "Compare nutritional content of lettuce grown in space versus Earth-grown controls",
+      "approach": "Grow identical lettuce varieties using Veggie system on ISS and ground-based hydroponic systems",
+      "results": "Space-grown lettuce showed 20% higher vitamin C content but 15% lower iron absorption rates"
+    },
+    "234567": {
+      "name": "Cosmic Ray Impact on Electronic Components",
+      "research_area": "space electronics",
+      "objective": "Assess radiation hardening requirements for spacecraft electronics",
+      "approach": "Expose various electronic components to space radiation environment and monitor failure rates",
+      "results": "Commercial-grade components showed 40% failure rate after 6 months; radiation-hardened components maintained 95% reliability"
+    },
+    "890123": {
+      "name": "Space-Based Telescope Calibration Study",
+      "research_area": "astronomy",
+      "objective": "Develop calibration methods for space telescopes operating in zero-gravity environment",
+      "approach": "Compare star tracking accuracy and image stability between space-based and ground-based telescope systems",
+      "results": "Space telescopes achieved 10x better pointing stability but required novel thermal management for calibration sources"
+    },
+    "456789": {
+      "name": "Microbial Growth in Space Environment",
+      "research_area": "microbiology",
+      "objective": "Investigate how microgravity affects bacterial growth patterns and antibiotic resistance",
+      "approach": "Culture identical bacterial strains in space and ground laboratories, comparing growth rates and resistance profiles",
+      "results": "Space-grown bacteria showed altered biofilm formation and increased resistance to certain antibiotics"
+    },
+    "012345": {
+      "name": "Space-Based Manufacturing of Advanced Materials",
+      "research_area": "materials science",
+      "objective": "Produce high-purity crystals and alloys using microgravity conditions",
+      "approach": "Use electromagnetic levitation furnaces aboard ISS to create defect-free materials without container contamination",
+      "results": "Produced ultra-pure semiconductor crystals with 50% fewer defects compared to Earth-based manufacturing"
+    },
+    "678901": {
+      "name": "Psychological Effects of Long-Duration Spaceflight",
+      "research_area": "space psychology",
+      "objective": "Study cognitive performance and mental health during extended space missions",
+      "approach": "Monitor astronaut cognitive tests, sleep patterns, and psychological assessments over 6-month ISS missions",
+      "results": "Significant decline in spatial reasoning tasks after 4 months, but improved problem-solving in confined environments"
+    }
+}

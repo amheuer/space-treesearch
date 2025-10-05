@@ -8,6 +8,7 @@ import { createNodeImageProgram } from "@sigma/node-image";
 declare global {
   interface Window {
     setSelectedNode: (nodeId: string | null) => void;
+    getClickedNode: () => string | null;
   }
 }
 
@@ -15,6 +16,10 @@ const GraphComponent: React.FC = () => {
   window.setSelectedNode = (nodeId: string | null) => {
     selectedNode.current = nodeId;
     (window as any).selectedNode = nodeId;
+  };
+  
+  window.getClickedNode = () => {
+    return clickSelectedNode.current;
   };
   const containerRef = useRef<HTMLDivElement | null>(null);
   const sigmaInstance = useRef<Sigma | null>(null);
@@ -123,7 +128,6 @@ const GraphComponent: React.FC = () => {
     
     const applyNodeEffects = () => {
       if (clickSelectedNode.current) {
-        // Click selected state - turn node green and apply downstream/upstream highlighting
         const node = clickSelectedNode.current;
         
         graphInstance.forEachEdge(edge => {
@@ -134,10 +138,8 @@ const GraphComponent: React.FC = () => {
           graphInstance.setNodeAttribute(n, "labelColor", { color: "#ffffff" });
         });
 
-        // Apply downstream and upstream highlighting
         applyDownstreamUpstreamHighlighting(node);
         
-        // Turn the clicked node green
         graphInstance.setNodeAttribute(node, "color", "#00ff00");
         graphInstance.setNodeAttribute(node, "labelColor", { color: "#000000" });
         
