@@ -77,3 +77,33 @@ export function fromExperimentsSample(experimentMap: { [key: string]: Experiment
 
   return graph;
 }
+
+
+function cosineSimilarity(vecA: number[], vecB: number[]): number {
+  const dotProduct = vecA.reduce((sum, val, i) => sum + val * vecB[i], 0);
+  const normA = Math.sqrt(vecA.reduce((sum, val) => sum + val * val, 0));
+  const normB = Math.sqrt(vecB.reduce((sum, val) => sum + val * val, 0));
+
+  if (normA === 0 || normB === 0) return -1; // Avoid division by zero
+
+  return dotProduct / (normA * normB);
+}
+
+
+function findClosestEmbedding(
+  papers: AdjacencyList,
+  inputEmbedding: number[]
+): string | null {
+  let closestId: string | null = null;
+  let highestSimilarity = -Infinity;
+
+  for (const [id, doc] of Object.entries(papers)) {
+    const similarity = cosineSimilarity(inputEmbedding, doc.embedding);
+    if (similarity > highestSimilarity) {
+      highestSimilarity = similarity;
+      closestId = id;
+    }
+  }
+
+  return closestId;
+}

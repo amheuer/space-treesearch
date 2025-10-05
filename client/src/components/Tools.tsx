@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { idiate, compare } from '../utils/tool-utils';
 import { getAdjacencyList } from '../utils/graph-data';
 import CollapsiblePanel from './CollapsiblePanel';
+import '/src/assets/scroll-box.css';
 
 type ToolState = 'none' | 'suggest' | 'compare' | 'experiment';
 
@@ -160,7 +161,7 @@ const Tools: React.FC = () => {
             ) : suggestions ? (
               <div style={{ margin: '0', color: '#ccc', fontSize: '14px' }}>
                 <p style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>Follow-up Research Approaches:</p>
-                <div style={{ whiteSpace: 'pre-line', lineHeight: '1.4' }}>
+                <div className="scroll-box">
                   {suggestions}
                 </div>
               </div>
@@ -182,7 +183,7 @@ const Tools: React.FC = () => {
             ) : compareResults ? (
               <div style={{ margin: '0', color: '#ccc', fontSize: '14px' }}>
                 <p style={{ margin: '0 0 8px 0', fontWeight: 'bold' }}>Paper Comparison:</p>
-                <div style={{ whiteSpace: 'pre-line', lineHeight: '1.4' }}>
+                <div className="scroll-box">
                   {compareResults}
                 </div>
                 <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#999' }}>
@@ -212,7 +213,7 @@ const Tools: React.FC = () => {
       default:
         return null;
     }
-  };
+  };  
 
   return (
     <CollapsiblePanel
