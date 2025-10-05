@@ -9,12 +9,12 @@ export type AdjacencyList = {
 };
 
 export function fromAdjacencyList(adjList: AdjacencyList): Graph {
+  const referenceCounts: Record<string, number> = {};
   const graph = new Graph({ type: 'directed' });
 
   for (const node in adjList) {
     if (!graph.hasNode(node)) {
       graph.addNode(node, {
-        size: 10 + adjList[node].references.length * 5,
         label: adjList[node].title,
       });
     }
@@ -23,12 +23,13 @@ export function fromAdjacencyList(adjList: AdjacencyList): Graph {
   for (const source in adjList) {
     for (const target of adjList[source].references) {
       if (!graph.hasNode(target)) {
-        graph.addNode(target, { size: 10, color: '#cccccc' }); // default size/color for missing refs
+        graph.addNode(target, { color: '#cccccc' }); // default size/color for missing refs
       }
       graph.addEdge(source, target, {
         size: 10, 
         color: '#444444ff' 
       });
+      adjList[target].citations = (adjList[target].citations || 0) + 1;
     }
   }
 
@@ -45,7 +46,8 @@ export function fromAdjacencyList(adjList: AdjacencyList): Graph {
     generation.forEach((nodeId, nodeIndex) => {
       const baseX = startX + nodeIndex * spacing;
       const randomX = baseX + (Math.random() - 0.5) * jitterAmount;
-
+      const inDegree = adjList[nodeId].citations || 0;
+      graph.setNodeAttribute(nodeId, 'size', 10 + inDegree * 5);
       graph.setNodeAttribute(nodeId, 'x', randomX);
       graph.setNodeAttribute(nodeId, 'y', yPosition);
     });

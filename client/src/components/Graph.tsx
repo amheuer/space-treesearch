@@ -31,11 +31,11 @@ const GraphComponent: React.FC = () => {
       nodeProgramClasses: {
         image: createNodeImageProgram(),
       },
+      defaultNodeColor: '#0077cc',
       nodeReducer: (node, data) => {
         return {
           ...data,
           label: data.label,
-          color: '#0077cc',
         };
       }
     });

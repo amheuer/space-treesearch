@@ -5,6 +5,7 @@
     "summary": "An in-depth analysis of quantum entanglement and its applications in quantum computing.",
     "journal": "Journal of Quantum Physics",
     "references": ["654321", "345678"],
+    "citations" : 0,
     "embedding": [0.12, 0.98, 0.34, 0.56, 0.77, 0.22, 0.11, 0.89]
   },
   "654321": {
@@ -13,6 +14,7 @@
     "summary": "A comprehensive overview of the principles of quantum mechanics.",
     "journal": "Physics Review Letters",
     "references": ["234567", "456789"],
+    "citations" : 0,
     "embedding": [0.33, 0.44, 0.22, 0.88, 0.90, 0.11, 0.55, 0.67]
   },
   "234567": {
@@ -21,6 +23,7 @@
     "summary": "Survey of algorithms designed specifically for quantum computers.",
     "journal": "Computing Surveys",
     "references": ["567890"],
+    "citations" : 0,
     "embedding": [0.78, 0.12, 0.99, 0.54, 0.32, 0.10, 0.45, 0.66]
   },
   "345678": {
@@ -29,6 +32,7 @@
     "summary": "Techniques for error correction in quantum computers.",
     "journal": "Quantum Information Journal",
     "references": ["234567"],
+    "citations" : 0,
     "embedding": [0.21, 0.43, 0.65, 0.87, 0.32, 0.54, 0.76, 0.98]
   },
   "456789": {
@@ -37,6 +41,7 @@
     "summary": "Security protocols based on quantum mechanics.",
     "journal": "Cryptography Today",
     "references": [],
+    "citations" : 0,
     "embedding": [0.11, 0.22, 0.33, 0.44, 0.55, 0.66, 0.77, 0.88]
   },
   "567890": {
@@ -45,6 +50,7 @@
     "summary": "Applications of machine learning in quantum systems.",
     "journal": "Machine Learning Quarterly",
     "references": [],
+    "citations" : 0,
     "embedding": [0.99, 0.88, 0.77, 0.66, 0.55, 0.44, 0.33, 0.22]
   },
   "678901": {
@@ -53,6 +59,7 @@
     "summary": "Methods for simulating quantum systems on classical computers.",
     "journal": "Simulation Science",
     "references": ["567890", "789012"],
+    "citations" : 0,
     "embedding": [0.23, 0.45, 0.67, 0.89, 0.12, 0.34, 0.56, 0.78]
   },
   "789012": {
@@ -61,6 +68,7 @@
     "summary": "Exploring optimization problems solved by quantum annealing.",
     "journal": "Optimization Monthly",
     "references": ["890123"],
+    "citations" : 0,
     "embedding": [0.34, 0.56, 0.78, 0.90, 0.12, 0.23, 0.45, 0.67]
   },
   "890123": {
@@ -69,6 +77,7 @@
     "summary": "Development and use of quantum sensors in measurement science.",
     "journal": "Sensors & Measurement",
     "references": [],
+    "citations" : 0,
     "embedding": [0.45, 0.67, 0.89, 0.12, 0.34, 0.56, 0.78, 0.90]
   },
   "901234": {
@@ -77,6 +86,7 @@
     "summary": "Protocols and architectures for quantum communication networks.",
     "journal": "Networking Today",
     "references": ["890123", "123456"],
+    "citations" : 0,
     "embedding": [0.56, 0.78, 0.90, 0.12, 0.23, 0.45, 0.67, 0.89]
   },
   "112233": {
@@ -85,6 +95,7 @@
     "summary": "Light-matter interactions at the quantum level.",
     "journal": "Optics Letters",
     "references": ["234567", "901234"],
+    "citations" : 0,
     "embedding": [0.67, 0.89, 0.12, 0.34, 0.56, 0.78, 0.90, 0.23]
   },
   "223344": {
@@ -93,6 +104,7 @@
     "summary": "Properties and applications of quantum materials.",
     "journal": "Materials Science",
     "references": ["345678"],
+    "citations" : 0,
     "embedding": [0.78, 0.90, 0.12, 0.23, 0.45, 0.67, 0.89, 0.34]
   },
   "334455": {
@@ -101,6 +113,7 @@
     "summary": "Thermodynamic principles in quantum systems.",
     "journal": "Thermodynamics Journal",
     "references": ["223344", "456789"],
+    "citations" : 0,
     "embedding": [0.89, 0.12, 0.34, 0.56, 0.78, 0.90, 0.23, 0.45]
   },
   "445566": {
@@ -109,6 +122,7 @@
     "summary": "Techniques for imaging using quantum properties of light.",
     "journal": "Imaging Science",
     "references": ["112233"],
+    "citations" : 0,
     "embedding": [0.90, 0.23, 0.45, 0.67, 0.89, 0.12, 0.34, 0.56]
   },
   "556677": {
@@ -117,6 +131,7 @@
     "summary": "Control theory applied to quantum systems.",
     "journal": "Control Systems",
     "references": ["445566", "567890"],
+    "citations" : 0,
     "embedding": [0.12, 0.34, 0.56, 0.78, 0.90, 0.23, 0.45, 0.67]
   },
   "667788": {
@@ -125,6 +140,7 @@
     "summary": "Fundamental limits and protocols in quantum information.",
     "journal": "Information Theory Letters",
     "references": ["556677", "789012"],
+    "citations" : 0,
     "embedding": [0.23, 0.45, 0.67, 0.89, 0.12, 0.34, 0.56, 0.78]
   },
   "778899": {
@@ -133,6 +149,7 @@
     "summary": "Quantum algorithms tailored for chemical simulations.",
     "journal": "Chemical Computing",
     "references": ["667788", "901234"],
+    "citations" : 0,
     "embedding": [0.34, 0.56, 0.78, 0.90, 0.12, 0.23, 0.45, 0.67]
   }
 }

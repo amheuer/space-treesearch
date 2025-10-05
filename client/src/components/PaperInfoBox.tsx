@@ -17,7 +17,6 @@ const PaperInfoBox: React.FC = () => {
           const adj = getAdjacencyList();
           setPaper(adj[nodeId] || null);
           setPersistedNode(nodeId);
-          setHidden(false); // Show info box again when a new node is selected
         }
         lastNode = nodeId;
       }
@@ -55,6 +54,7 @@ const PaperInfoBox: React.FC = () => {
       <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Journal:</strong> {paper.journal}</div>
       <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Summary:</strong> {paper.summary}</div>
       <div style={{ fontSize: '0.95rem' }}><strong>References:</strong> {paper.references && paper.references.length > 0 ? paper.references.join(', ') : 'None'}</div>
+      <div style={{ fontSize: '0.95rem', marginBottom: 2 }}><strong>Cited By:</strong> {paper.citations}</div>
     </CollapsiblePanel>
   );
 };

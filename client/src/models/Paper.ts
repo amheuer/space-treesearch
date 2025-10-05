@@ -4,5 +4,6 @@ export type Paper = {
   summary: string;
   journal: string;
   references: string[];
+  citations: number;
   embedding: number[];
 };
