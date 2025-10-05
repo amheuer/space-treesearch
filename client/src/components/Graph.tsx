@@ -1,13 +1,21 @@
 // src/components/Graph.tsx
 import React, { useEffect, useRef } from 'react';
+import SearchBar from './SearchBar';
 import Sigma from 'sigma';
 import { fromAdjacencyList } from '../utils/graph-utils';
 import { getAdjacencyList } from '../utils/graph-data';
 import type { AdjacencyList } from '../utils/graph-utils';
 import type { Paper } from '../models/Paper';
 
+// Extend window type for setSelectedNode
+declare global {
+  interface Window {
+    setSelectedNode: (nodeId: string | null) => void;
+  }
+}
+
 const GraphComponent: React.FC = () => {
-  (window as any).setSelectedNode = (nodeId: string | null) => {
+  window.setSelectedNode = (nodeId: string | null) => {
     selectedNode.current = nodeId;
   };
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -133,7 +141,12 @@ const GraphComponent: React.FC = () => {
     };
   }, []);
 
-  return <div ref={containerRef} style={{ width: '100vw', height: '100vh' }} />;
+  return (
+    <>
+      <SearchBar />
+      <div ref={containerRef} style={{ width: '100vw', height: '100vh' }} />
+    </>
+  );
 };
 
 export default GraphComponent;
