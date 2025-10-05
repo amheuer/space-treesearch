@@ -12,18 +12,26 @@ const PaperInfoBox: React.FC = () => {
 
   useEffect(() => {
     let lastNode: string | null = null;
+
     const checkSelectedNode = () => {
-      const nodeId = (window as any).selectedNode || null;
-      if (nodeId !== lastNode) {
-        setSelectedNode(nodeId);
-        if (nodeId) {
-          const adj = getAdjacencyList();
-          setPaper(adj[nodeId] || null);
-          setPersistedNode(nodeId);
-        }
-        lastNode = nodeId;
+      const hoveredNode = (window as any).selectedNode || null;
+      const clickedNode = window.getClickedNode ? window.getClickedNode() : null;
+
+      // Prioritize clicked node over hovered node
+      const activeNode = clickedNode || hoveredNode;
+
+      // Only update if there is a new active node
+      if (activeNode && activeNode !== lastNode) {
+        setSelectedNode(activeNode);
+        setPersistedNode(activeNode); // Persist for display even if hover ends
+
+        const adj = getAdjacencyList();
+        setPaper(adj[activeNode] || null);
+
+        lastNode = activeNode;
       }
     };
+
     const interval = setInterval(checkSelectedNode, 100);
     checkSelectedNode();
     return () => clearInterval(interval);
