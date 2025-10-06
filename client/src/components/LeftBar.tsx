@@ -3,7 +3,7 @@ import AppHeader from './AppHeader';
 import PaperInfoBox from './PaperInfoBox';
 
 const LeftBar: React.FC = () => (
-  <div style={{
+  <div className="hide-on-mobile" style={{
     position: 'absolute',
     top: 20,
     left: 20,

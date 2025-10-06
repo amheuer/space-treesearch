@@ -4,7 +4,7 @@ import Tools from './Tools';
 import ThinkBar from './ThinkBar';
 
 const RightBar: React.FC = () => (
-  <div style={{
+  <div className="hide-on-mobile" style={{
     position: 'absolute',
     top: 20,
     right: 20,
