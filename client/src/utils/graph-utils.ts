@@ -29,7 +29,7 @@ export function fromAdjacencyList(adjList: AdjacencyList): Graph {
   for (const node in adjList) {
     if (!graph.hasNode(node)) {
       graph.addNode(node, {
-        label: adjList[node].title,
+        label: format(adjList[node].label) || adjList[node].title,
       });
     }
   }
@@ -38,7 +38,7 @@ export function fromAdjacencyList(adjList: AdjacencyList): Graph {
     for (const target of adjList[source].references) {
       if (adjList[target]) { 
         if (!graph.hasNode(target)) {
-          graph.addNode(target, { ...adjList[target], label: adjList[target].title });
+          graph.addNode(target, { ...adjList[target], label: format(adjList[target].label) || adjList[target].title});
         }
         if (!wouldCreateCycle(graph, source, target)) {
           graph.addEdge(source, target, { type: 'arrow', size: 2 });
@@ -172,3 +172,8 @@ function wouldCreateCycle(graph: Graph, source: string, target: string): boolean
 
   return false;
 }
+
+  const format = (label: string | undefined) => {
+    if (!label) return '';
+    return label.replace(/\*/g, '');
+  };

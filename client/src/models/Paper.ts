@@ -7,4 +7,5 @@ export type Paper = {
   references: string[];
   citations: number;
   vector: number[];
+  label?: string;
 };

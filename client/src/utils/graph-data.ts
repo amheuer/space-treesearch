@@ -1,4 +1,4 @@
-import mergedData from '../data/merged_data.json' assert { type: 'json' };
+import mergedData from '../data/unified_data.json' assert { type: 'json' };
 import type { AdjacencyList } from '../utils/graph-utils';
 import type { Experiment } from '../models/Experiment';
 import experimentsSample from '../data/experiments-sample.json';

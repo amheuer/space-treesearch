@@ -60,7 +60,7 @@ const GraphComponent: React.FC = () => {
     const renderer = new Sigma(graph, containerRef.current!, {
       labelWeight: 'bold',
       labelSize: 12,
-      labelRenderedSizeThreshold: 15,
+      labelRenderedSizeThreshold: 8,
       labelColor: { color: '#35a2d5ff' },
       nodeProgramClasses: {
         image: createNodeImageProgram(),
